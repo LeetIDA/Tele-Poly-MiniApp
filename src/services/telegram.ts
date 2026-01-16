@@ -6,10 +6,58 @@ class TelegramService {
   constructor() {
     if (window.Telegram?.WebApp) {
       this.tg = window.Telegram.WebApp;
+      
+      // Initialize the app
       this.tg.ready();
+      
+      // Expand to full height
       this.tg.expand();
-      // Enable closing confirmation (optional)
+      
+      // Request fullscreen mode (v8.0+)
+      this.requestFullscreen();
+      
+      // Enable closing confirmation
       this.tg.enableClosingConfirmation();
+      
+      // Set viewport height CSS variable
+      this.updateViewportHeight();
+      
+      // Listen for viewport changes
+      this.tg.onEvent('viewportChanged', () => this.updateViewportHeight());
+    }
+  }
+
+  private updateViewportHeight() {
+    if (this.tg?.viewportHeight) {
+      document.documentElement.style.setProperty(
+        '--tg-viewport-height',
+        `${this.tg.viewportHeight}px`
+      );
+    }
+  }
+
+  private requestFullscreen() {
+    try {
+      // Use native Telegram method if available (v8.0+)
+      if (this.tg && 'requestFullscreen' in this.tg && typeof (this.tg as any).requestFullscreen === 'function') {
+        (this.tg as any).requestFullscreen();
+      } else {
+        // Fallback: Use postEvent for older SDK versions
+        if ((window as any).TelegramWebviewProxy?.postEvent) {
+          (window as any).TelegramWebviewProxy.postEvent('web_app_request_fullscreen', '{}');
+        } else if (window.parent) {
+          // Web version fallback
+          window.parent.postMessage(
+            JSON.stringify({
+              eventType: 'web_app_request_fullscreen',
+              eventData: {}
+            }),
+            'https://web.telegram.org'
+          );
+        }
+      }
+    } catch (error) {
+      console.log('Fullscreen request not supported:', error);
     }
   }
 

@@ -81,7 +81,14 @@ function App() {
   }
 
   return (
-    <div className="h-full w-full relative overflow-auto">
+    <div className="h-full w-full relative overflow-auto" style={{ 
+      height: 'var(--tg-viewport-stable-height, 100vh)',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
+    }}>
       {/* Dark Dot Matrix */}
       <div
         className="absolute inset-0 z-0"

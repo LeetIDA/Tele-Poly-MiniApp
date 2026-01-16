@@ -28,6 +28,8 @@ export interface TelegramWebApp {
   showPopup(params: PopupParams, callback?: (buttonId: string) => void): void;
   showAlert(message: string, callback?: () => void): void;
   showConfirm(message: string, callback?: (confirmed: boolean) => void): void;
+  requestFullscreen?(): void;
+  isFullscreen?: boolean;
 }
 
 export interface WebAppInitData {
