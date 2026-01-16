@@ -1,4 +1,4 @@
-import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, GraduationCap, X } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, GraduationCap } from 'lucide-react';
 import type { Student } from '../types/student';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Sparkles } from './Sparkles';
@@ -61,20 +61,14 @@ export const StudentProfile = ({ student, onClose }: StudentProfileProps) => {
       
       <div className="h-full overflow-y-auto relative z-10">
         <div className="container max-w-3xl mx-auto p-4 pb-20">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6 pt-4">
+          {/* Header - Add top padding to avoid Telegram's Close button */}
+          <div className="flex items-center justify-between mb-6 pt-16">
             <button
               onClick={onClose}
               className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Search
-            </button>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-secondary rounded-full transition-colors"
-            >
-              <X className="h-5 w-5" />
             </button>
           </div>
 

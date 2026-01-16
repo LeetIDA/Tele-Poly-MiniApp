@@ -7,6 +7,7 @@ import RecentSearches from '@components/RecentSearches';
 import { Sparkles } from '@components/Sparkles';
 import DecryptingText from '@components/DecryptingText';
 import { isUserAuthorized, getAuthErrorMessage } from './services/auth';
+import telegramService from '@services/telegram';
 import { 
   getSearchHistory, 
   addToHistory, 
@@ -37,6 +38,24 @@ function App() {
     // Load search history
     setSearchHistory(getSearchHistory());
   }, [user, isAvailable]);
+
+  // Handle Telegram BackButton
+  useEffect(() => {
+    if (selectedStudent) {
+      // Show Telegram BackButton when student profile is open
+      telegramService.showBackButton(() => {
+        setSelectedStudent(null);
+      });
+    } else {
+      // Hide Telegram BackButton when on main search view
+      telegramService.hideBackButton();
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      telegramService.hideBackButton();
+    };
+  }, [selectedStudent]);
 
   const handleStudentSelect = (student: Student) => {
     setSelectedStudent(student);
