@@ -8,6 +8,8 @@ class TelegramService {
       this.tg = window.Telegram.WebApp;
       this.tg.ready();
       this.tg.expand();
+      // Enable closing confirmation (optional)
+      this.tg.enableClosingConfirmation();
     }
   }
 

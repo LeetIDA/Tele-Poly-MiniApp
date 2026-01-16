@@ -81,7 +81,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen w-full relative">
+    <div className="h-full w-full relative overflow-auto">
       {/* Dark Dot Matrix */}
       <div
         className="absolute inset-0 z-0"
