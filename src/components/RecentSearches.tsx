@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { History, X, Trash2, User, Clock } from "lucide-react";
 import type { Student } from '../types/student';

@@ -16,10 +16,8 @@ interface SparklesProps {
   opacitySpeed?: number;
   minOpacity?: number | null;
   color?: string;
-  mousemove?: boolean;
   hover?: boolean;
   background?: string;
-  options?: Record<string, any>;
 }
 
 export function Sparkles({
@@ -34,10 +32,8 @@ export function Sparkles({
   opacitySpeed = 3,
   minOpacity = null,
   color = '#ffffff',
-  mousemove = false,
   hover = false,
   background = 'transparent',
-  options = {},
 }: SparklesProps) {
   const [isReady, setIsReady] = useState(false);
 
@@ -90,7 +86,7 @@ export function Sparkles({
       },
       move: {
         enable: true,
-        direction,
+        direction: direction as any,
         speed: {
           min: minSpeed || speed / 130,
           max: speed,
@@ -111,7 +107,7 @@ export function Sparkles({
         },
         enable: false,
         maxSpeed: 50,
-        mode: 'bounce',
+        mode: 'bounce' as const,
         overlap: {
           enable: true,
           retries: 0,
