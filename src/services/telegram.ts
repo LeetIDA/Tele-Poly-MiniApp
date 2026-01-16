@@ -10,8 +10,16 @@ class TelegramService {
       // Initialize the app
       this.tg.ready();
       
-      // Expand to full height
+      // Expand to maximum available height
       this.tg.expand();
+      
+      // Set background color to match the app using postEvent
+      try {
+        this.postEvent('web_app_set_background_color', { color: '#0a0a0a' });
+        this.postEvent('web_app_set_header_color', { color: '#0a0a0a' });
+      } catch (e) {
+        console.log('Color setting not supported');
+      }
       
       // Request fullscreen mode (v8.0+)
       this.requestFullscreen();
@@ -24,6 +32,24 @@ class TelegramService {
       
       // Listen for viewport changes
       this.tg.onEvent('viewportChanged', () => this.updateViewportHeight());
+      
+      // Update on window resize for better mobile support
+      window.addEventListener('resize', () => this.updateViewportHeight());
+    }
+  }
+
+  private postEvent(eventType: string, eventData: any = {}) {
+    try {
+      if ((window as any).TelegramWebviewProxy?.postEvent) {
+        (window as any).TelegramWebviewProxy.postEvent(eventType, JSON.stringify(eventData));
+      } else if (window.parent) {
+        window.parent.postMessage(
+          JSON.stringify({ eventType, eventData }),
+          'https://web.telegram.org'
+        );
+      }
+    } catch (e) {
+      console.log('postEvent error:', e);
     }
   }
 
